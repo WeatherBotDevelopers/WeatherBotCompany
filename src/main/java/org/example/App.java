@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public class App {
 
+	//started to change of using api
+
     TransportClient transportClient = HttpTransportClient.getInstance();
     VkApiClient vk = new VkApiClient(transportClient);
     GroupActor actor = new GroupActor(188205376, "29b9c2b8bc68974b87ebb9447649a016125edd478ff9d7de530af31e89f6232d8ba19cd8d6a64390f8ddd");
