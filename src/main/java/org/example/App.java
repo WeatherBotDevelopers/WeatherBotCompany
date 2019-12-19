@@ -10,7 +10,7 @@ import com.vk.api.sdk.queries.groups.GroupsGetLongPollServerQuery;
 
 import java.io.IOException;
 
-//comment for commit
+//changed comment for commit
 
 public class App {
 
