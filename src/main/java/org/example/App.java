@@ -13,6 +13,7 @@ import java.io.IOException;
 public class App {
 
 	//started to change of using api
+	//another useless test comment
 
     TransportClient transportClient = HttpTransportClient.getInstance();
     VkApiClient vk = new VkApiClient(transportClient);
