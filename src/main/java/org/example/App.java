@@ -3,26 +3,36 @@ package org.example;
 import com.petersamokhin.bots.sdk.clients.Group;
 import com.petersamokhin.bots.sdk.objects.Message;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 public class App {
 
-    Group group = new Group(188205376, "29b9c2b8bc68974b87ebb9447649a016125edd478ff9d7de530af31e89f6232d8ba19cd8d6a64390f8ddd");
-    String text = "";
-    String messageToSend = "";
-
     public static void main(String[] args) throws IOException {
 
-        App app = new App();
+        Properties properties = new Properties();
+        String token = "";
+        int groupId = 0;
+
+        try {
+            properties.load(new FileInputStream("src/main/resources/config.properties"));
+            token = String.valueOf(properties.getProperty("token"));
+            groupId = Integer.parseInt(properties.getProperty("groupId"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Group group = new Group(groupId, token);
 
         while (true) {
-            app.group.onSimpleTextMessage(message -> {
+            group.onSimpleTextMessage(message -> {
                 try {
-                    app.text = message.getText();
-                    app.messageToSend = Weather.getWeather(new ModelJSON(), app);
-                    new Message().from(app.group).to(message.authorId()).text(app.messageToSend).send();
+                    String text = message.getText();
+                    String messageToSend = Weather.getWeather(new ModelJSON(), text);
+                    new Message().from(group).to(message.authorId()).text(messageToSend).send();
                 } catch (IOException e) {
-                    new Message().from(app.group).to(message.authorId()).text("Такого города не существует!").send();
+                    new Message().from(group).to(message.authorId()).text("Такого города не существует!").send();
                 }
             });
         }

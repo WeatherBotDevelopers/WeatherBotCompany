@@ -12,9 +12,9 @@ public class Weather {
 
     //api call link: http://api.openweathermap.org/data/2.5/weather?q=London&units=metric&APPID=561769eddcb1c6a87b5738e2c1d8f783
 
-    public static String getWeather(ModelJSON model, App app) throws IOException {
+    public static String getWeather(ModelJSON model, String text) throws IOException {
 
-        URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + app.text + "&units=metric&APPID=561769eddcb1c6a87b5738e2c1d8f783");
+        URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + text + "&units=metric&APPID=561769eddcb1c6a87b5738e2c1d8f783");
 
         Scanner scanner = new Scanner((InputStream) url.getContent());
         String result = "";
