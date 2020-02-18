@@ -1,5 +1,7 @@
 package org.example;
 
 public interface BotService {
-    void sendMessage();
+    void auth();
+
+    void sendMessage(MessageReplyer messageReplyer);
 }
