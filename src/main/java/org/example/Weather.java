@@ -18,6 +18,7 @@ public class Weather {
 
         Scanner scanner = new Scanner((InputStream) url.getContent());
         String result = "";
+
         while (scanner.hasNext()) {
             result += scanner.nextLine();
         }
