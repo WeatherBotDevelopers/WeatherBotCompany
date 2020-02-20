@@ -1,17 +1,10 @@
 package org.example;
 
-<<<<<<< HEAD
-import com.petersamokhin.bots.sdk.clients.Group;
-import com.petersamokhin.bots.sdk.objects.Message;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
-
-//changed comment for commit
-=======
 import org.telegram.telegrambots.ApiContextInitializer;
->>>>>>> unitingBots
+import org.telegram.telegrambots.api.objects.Message;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
+
+import java.io.IOException;
 
 public class App {
 
@@ -26,8 +19,12 @@ public class App {
 
         for (BotService botService : botServices) {
             new Thread(() -> {
-                botService.auth();
-                botService.sendMessage(new MessageReplyer());
+                botService.run();
+                try {
+                    botService.sendMessage(new WeatherMessageReplyer(), new Message());
+                } catch (IOException | TelegramApiException e) {
+                    e.printStackTrace();
+                }
             }).start();
         }
     }

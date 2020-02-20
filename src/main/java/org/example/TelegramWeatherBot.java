@@ -1,6 +1,7 @@
 package org.example;
 
 import org.telegram.telegrambots.TelegramBotsApi;
+import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -12,8 +13,10 @@ import java.util.Properties;
 
 public class TelegramWeatherBot extends TelegramLongPollingBot implements BotService {
 
+    Message messageTelegram;
+
     @Override
-    public void auth() {
+    public void run() {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
             System.out.println("authTeleg");
@@ -36,16 +39,24 @@ public class TelegramWeatherBot extends TelegramLongPollingBot implements BotSer
     }
 
     @Override
-    public void sendMessage(MessageReplyer messageReplyer) {
-        //because of the stupid this method is empty
+    public void sendMessage(WeatherMessageReplyer weatherMessageReplyer, Message messageTelegram) throws TelegramApiException {
+        SendMessage sendMessage = new SendMessage();
+        if (messageTelegram.hasText()) {
+            sendMessage.enableMarkdown(true);
+            sendMessage.setChatId(messageTelegram.getChatId().toString());
+            sendMessage.setReplyToMessageId(messageTelegram.getMessageId());
+            sendMessage.setText(weatherMessageReplyer.sendReply(messageTelegram.getText()));
+            sendMessage(sendMessage);
+        }
     }
 
     @Override
     public void onUpdateReceived(Update update) {
-        Message message = update.getMessage();
-        if (message.hasText()) {
-            MessageReplyer messageReplyer = new MessageReplyer();
-            messageReplyer.sendTelegramMessage(update);
+        messageTelegram = update.getMessage();
+        try {
+            sendMessage(new WeatherMessageReplyer(), messageTelegram);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 

@@ -1,13 +1,13 @@
 package org.example;
 
 public class ModelJSON {
-
-    private String name;
-    private Double temperature;
-    private Double humidity;
+    public String name;
+    public Double temperature;
+    public Double humidity;
     //private String icon;
-    private String main;
-    private Double windSpeed;
+    public String main;
+    public Double windSpeed;
+
 
     public String getName() {
         return name;

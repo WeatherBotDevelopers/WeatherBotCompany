@@ -1,7 +1,12 @@
 package org.example;
 
-public interface BotService {
-    void auth();
+import org.telegram.telegrambots.api.objects.Message;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-    void sendMessage(MessageReplyer messageReplyer);
+import java.io.IOException;
+
+public interface BotService {
+    void run();
+
+    void sendMessage(WeatherMessageReplyer weatherMessageReplyer, Message messageTelegram) throws IOException, TelegramApiException;
 }
