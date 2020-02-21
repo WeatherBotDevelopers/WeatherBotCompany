@@ -1,8 +1,6 @@
 package org.weatherBotDevelopers;
 
 import com.petersamokhin.bots.sdk.clients.Group;
-import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.Update;
 
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -12,9 +10,16 @@ public class VkWeatherBot implements BotService {
     Group group;
 
     @Override
-    public void run() {
+    public void initialization(WeatherMessageReplyer weatherMessageReplyer) {
+        weatherMessageReplyer.response = "VkWeatherBot is started";
+        launch();
+    }
+
+    @Override
+    public void launch() {
         System.out.println("authVk");
         group = new Group(188205376, getProperties());
+        sendMessage();
     }
 
     public String getProperties() {
@@ -29,15 +34,9 @@ public class VkWeatherBot implements BotService {
         return token;
     }
 
-    @Override
-    public void onUpdateReceived(Update update) {
-        sendMessage(new WeatherMessageReplyer(), new Message());
-    }
-
-    @Override
-    public void sendMessage(WeatherMessageReplyer weatherMessageReplyer, Message messageTelegram) {
+    public void sendMessage() {
         group.onSimpleTextMessage(message -> {
-            new com.petersamokhin.bots.sdk.objects.Message().from(group).to(message.authorId()).text(weatherMessageReplyer.sendReply(message.getText())).send();
+            new com.petersamokhin.bots.sdk.objects.Message().from(group).to(message.authorId()).text(new WeatherMessageReplyer().sendReply(message.getText())).send();
         });
     }
 }
