@@ -1,4 +1,4 @@
-package org.example;
+package org.weatherBotDevelopers;
 
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -39,24 +39,26 @@ public class TelegramWeatherBot extends TelegramLongPollingBot implements BotSer
     }
 
     @Override
-    public void sendMessage(WeatherMessageReplyer weatherMessageReplyer, Message messageTelegram) throws TelegramApiException {
+    public void sendMessage(WeatherMessageReplyer weatherMessageReplyer, Message messageTelegram) {
         SendMessage sendMessage = new SendMessage();
         if (messageTelegram.hasText()) {
-            sendMessage.enableMarkdown(true);
-            sendMessage.setChatId(messageTelegram.getChatId().toString());
-            sendMessage.setReplyToMessageId(messageTelegram.getMessageId());
-            sendMessage.setText(weatherMessageReplyer.sendReply(messageTelegram.getText()));
-            sendMessage(sendMessage);
+            try {
+                sendMessage.enableMarkdown(true);
+                sendMessage.setChatId(messageTelegram.getChatId().toString());
+                sendMessage.setReplyToMessageId(messageTelegram.getMessageId());
+                sendMessage.setText(weatherMessageReplyer.sendReply(messageTelegram.getText()));
+                sendMessage(sendMessage);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         messageTelegram = update.getMessage();
-        try {
+        if (messageTelegram != null) {
             sendMessage(new WeatherMessageReplyer(), messageTelegram);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
         }
     }
 

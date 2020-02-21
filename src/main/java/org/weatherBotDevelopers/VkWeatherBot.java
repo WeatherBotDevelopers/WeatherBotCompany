@@ -1,7 +1,8 @@
-package org.example;
+package org.weatherBotDevelopers;
 
 import com.petersamokhin.bots.sdk.clients.Group;
 import org.telegram.telegrambots.api.objects.Message;
+import org.telegram.telegrambots.api.objects.Update;
 
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -26,6 +27,11 @@ public class VkWeatherBot implements BotService {
             e.printStackTrace();
         }
         return token;
+    }
+
+    @Override
+    public void onUpdateReceived(Update update) {
+        sendMessage(new WeatherMessageReplyer(), new Message());
     }
 
     @Override
