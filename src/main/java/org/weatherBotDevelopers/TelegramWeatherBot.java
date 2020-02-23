@@ -16,22 +16,19 @@ public class TelegramWeatherBot extends TelegramLongPollingBot implements BotSer
     Message messageTelegram;
 
     @Override
-    public void initialization(WeatherMessageReplyer weatherMessageReplyer) {
+    public void initialize(WeatherMessageReplyer weatherMessageReplyer) {
         weatherMessageReplyer.response = "TelegramWeatherBot is started";
-        launch();
     }
 
     @Override
     public void launch() {
-        new Thread(() -> {
-            TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-            try {
-                System.out.println("authTeleg");
-                telegramBotsApi.registerBot(new TelegramWeatherBot());
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+        try {
+            System.out.println("authTeleg");
+            telegramBotsApi.registerBot(new TelegramWeatherBot());
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getProperties() {

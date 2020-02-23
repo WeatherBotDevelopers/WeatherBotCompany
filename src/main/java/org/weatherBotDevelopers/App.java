@@ -9,9 +9,11 @@ public class App {
         ApiContextInitializer.init();
 
         TelegramWeatherBot telegramWeatherBot = new TelegramWeatherBot();
-        telegramWeatherBot.initialization(new WeatherMessageReplyer());
+        telegramWeatherBot.initialize(new WeatherMessageReplyer());
+        telegramWeatherBot.launch();
 
         VkWeatherBot vkWeatherBot = new VkWeatherBot();
-        vkWeatherBot.initialization(new WeatherMessageReplyer());
+        vkWeatherBot.initialize(new WeatherMessageReplyer());
+        vkWeatherBot.launch();
     }
 }

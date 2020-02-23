@@ -10,16 +10,17 @@ public class VkWeatherBot implements BotService {
     Group group;
 
     @Override
-    public void initialization(WeatherMessageReplyer weatherMessageReplyer) {
+    public void initialize(WeatherMessageReplyer weatherMessageReplyer) {
         weatherMessageReplyer.response = "VkWeatherBot is started";
-        launch();
     }
 
     @Override
     public void launch() {
         System.out.println("authVk");
         group = new Group(188205376, getProperties());
-        sendMessage();
+        group.onSimpleTextMessage(message -> {
+            new com.petersamokhin.bots.sdk.objects.Message().from(group).to(message.authorId()).text(new WeatherMessageReplyer().sendReply(message.getText())).send();
+        });
     }
 
     public String getProperties() {
@@ -32,11 +33,5 @@ public class VkWeatherBot implements BotService {
             e.printStackTrace();
         }
         return token;
-    }
-
-    public void sendMessage() {
-        group.onSimpleTextMessage(message -> {
-            new com.petersamokhin.bots.sdk.objects.Message().from(group).to(message.authorId()).text(new WeatherMessageReplyer().sendReply(message.getText())).send();
-        });
     }
 }

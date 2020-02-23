@@ -1,7 +1,7 @@
 package org.weatherBotDevelopers;
 
 public interface BotService {
-    void initialization(WeatherMessageReplyer weatherMessageReplyer);
+    void initialize(WeatherMessageReplyer weatherMessageReplyer);
 
     void launch();
 }
